@@ -539,9 +539,9 @@
       "RemoteHost": "api.github.com",
       "RemoteRepo": "gggroupedscale",
       "RemoteUsername": "const-ae",
-      "RemoteRef": "1d0d2cc27b4ba039ac6",
-      "RemoteSha": "1d0d2cc27b4ba039ac6064219d2d8b0466ce5702",
-      "Hash": "30517a25c0fcd5a24860e1ed4b91fc55",
+      "RemoteRef": "15136443f61",
+      "RemoteSha": "15136443f6141fd05bce671cb18fb8289873e407",
+      "Hash": "81457d269e71f9b4f9c5b2d2f2dec03c",
       "Requirements": [
         "ggplot2",
         "gtable",
