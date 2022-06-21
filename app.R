@@ -23,7 +23,7 @@ res <- bind_rows(
 tmp <- read_rds("data/dataset_plot_data.RDS")
 reduced_dim_data <- bind_rows(
   bind_rows(tmp$downsampling) %>%
-    pivot_longer(-c(name, cluster, col_sums_full, colres_sums_reduced), names_pattern = "(tsne|pca)_(ground_truth|log_counts)_(full|reduced)_(axis\\d)", names_to = c("dim_red_method", "origin", "downsampling", ".value")) %>%
+    pivot_longer(-c(name, cluster, col_sums_full, col_sums_reduced), names_pattern = "(tsne|pca)_(ground_truth|log_counts)_(full|reduced)_(axis\\d)", names_to = c("dim_red_method", "origin", "downsampling", ".value")) %>%
     pivot_longer(c(col_sums_full, col_sums_reduced), names_pattern = "(.+)_(full|reduced)", names_to = c(".value", "downsampling2")) %>%
     filter(downsampling == downsampling2) %>% 
     dplyr::select(-downsampling2)%>%

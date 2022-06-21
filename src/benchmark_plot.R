@@ -77,8 +77,8 @@ benchmarkPlotServer <- function(id, data, pcadim_sel = reactive(NULL), knn_sel =
         ggplot(dat, aes(x = value, y = transformation, color = family, shape = alpha, group = paste0(transformation,"-", alpha))) +
           ggbeeswarm::geom_quasirandom(color = "grey", size = 0.3, alpha = 0.7, groupOnX = FALSE) +
           stat_summary(geom = "point", position = position_dodge2(width = 0.3), fun = mean, size = 1.8) +
-          # scale_y_grouped_discrete(grouping = ~ trans_families_labels[deframe(trans_families)[.x]], gap_size = 1.7, limits = rev,
-          #                          labels = trans_labels_plain, add_group_label = TRUE) +
+          scale_y_grouped_discrete(grouping = ~ trans_families_labels[deframe(trans_families)[.x]], gap_size = 1.7, limits = rev,
+                                   labels = trans_labels_plain, add_group_label = TRUE) +
           scale_color_manual(values = trans_families_colors, labels = trans_families_labels, guide = "none") +
           (if(input$zoom_in) scale_x_continuous(limits = range(pull(dat, value)))
            else scale_x_continuous(limits = c(0, dat$knn[1])))+
