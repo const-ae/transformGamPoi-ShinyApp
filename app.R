@@ -7,11 +7,14 @@ theme_set(cowplot::theme_cowplot(font_size = 11))
 
 res <- bind_rows(
   read_tsv("data/simulation_results.tsv") %>% 
-    transmute(benchmark = "simulation", overlap = mean_knn_overlap, knn, pca_dim, alpha = as.character(alpha), transformation, dataset = simulator, replicate = seed, cputime_sec, elapsed_sec),
+    transmute(benchmark = "simulation", overlap = mean_knn_overlap, knn, pca_dim, alpha = as.character(alpha), 
+              transformation, dataset = simulator, replicate = seed, cputime_sec, elapsed_sec, ARI, AMI, NMI),
   read_tsv("data/consistency_results.tsv") %>% 
-    transmute(benchmark = "consistency", overlap = mean_overlap, knn, pca_dim, alpha = as.character(alpha), transformation, dataset, replicate = seed, cputime_sec, elapsed_sec),
+    transmute(benchmark = "consistency", overlap = mean_overlap, knn, pca_dim, alpha = as.character(alpha),
+              transformation, dataset, replicate = seed, cputime_sec, elapsed_sec, ARI = NA, AMI = NA, NMI = NA),
   read_tsv("data/downsampling_results.tsv") %>% 
-    transmute(benchmark = "downsampling", overlap = overlap, knn, pca_dim, alpha = as.character(alpha), transformation, dataset, replicate = seed, cputime_sec = full_cputime_sec, elapsed_sec = full_elapsed_sec)
+    transmute(benchmark = "downsampling", overlap = overlap, knn, pca_dim, alpha = as.character(alpha), 
+              transformation, dataset, replicate = seed, cputime_sec = full_cputime_sec, elapsed_sec = full_elapsed_sec, ARI = NA, AMI = NA, NMI = NA)
 ) %>%
   mutate(transformation = factor(transformation, levels = trans_families$transformation)) %>%
   mutate(alpha = ifelse(alpha == "FALSE", "0", alpha)) %>%
@@ -20,7 +23,7 @@ res <- bind_rows(
 tmp <- read_rds("data/dataset_plot_data.RDS")
 reduced_dim_data <- bind_rows(
   bind_rows(tmp$downsampling) %>%
-    pivot_longer(-c(name, cluster, col_sums_full, col_sums_reduced), names_pattern = "(tsne|pca)_(ground_truth|log_counts)_(full|reduced)_(axis\\d)", names_to = c("dim_red_method", "origin", "downsampling", ".value")) %>%
+    pivot_longer(-c(name, cluster, col_sums_full, colres_sums_reduced), names_pattern = "(tsne|pca)_(ground_truth|log_counts)_(full|reduced)_(axis\\d)", names_to = c("dim_red_method", "origin", "downsampling", ".value")) %>%
     pivot_longer(c(col_sums_full, col_sums_reduced), names_pattern = "(.+)_(full|reduced)", names_to = c(".value", "downsampling2")) %>%
     filter(downsampling == downsampling2) %>% 
     dplyr::select(-downsampling2)%>%
