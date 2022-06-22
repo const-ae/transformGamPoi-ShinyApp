@@ -81,8 +81,8 @@ durationPlotServer <- function(id, data, pcadim_sel = reactive(NULL), knn_sel = 
           scale_y_grouped_discrete(grouping = ~ trans_families_labels[deframe(trans_families)[.x]], gap_size = 1.7, limits = rev,
                                    labels = trans_labels_plain, add_group_label = TRUE) +
           scale_color_manual(values = trans_families_colors, labels = trans_families_labels, guide = "none") +
-          geom_rug(data = time_minor_ticks, aes(x = ticks, y = 0), sides = "b", color = "black") +
-          geom_rug(data = time_major_ticks, aes(x = ticks, y = 0), sides = "b", color = "black") +
+          geom_rug(data = time_minor_ticks, aes(x = ticks, y = 0), sides = "b", color = "black", length = unit(0.01, "npc")) +
+          geom_rug(data = time_major_ticks, aes(x = ticks, y = 0), sides = "b", color = "black", length = unit(0.015, "npc")) +
           scale_x_log10(breaks = c(0.001, 1, 60, 60 * 60, 24 * 60 * 60, 7 * 24 * 60 * 60),
                         labels = c("1ms", "1sec", "1min", "1hour", "1day", "1week"), limits = c(1, NA),
                         expand = expansion(mult = 0.01, 0.05)) +
