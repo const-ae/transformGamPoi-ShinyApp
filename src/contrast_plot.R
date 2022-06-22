@@ -4,17 +4,6 @@
 
 contrastPlotUI <- function(id) {
   tagList(
-    # shiny::fluidRow(
-    #   column(3, tagList(
-    #     shinyWidgets::pickerInput(NS(id, "trans_a"), label = "", choices = NA, inline = TRUE, width = "fit"),
-    #     shinyWidgets::pickerInput(NS(id, "alpha_a"), label = "alpha", choices = NA, inline = TRUE, width = "fit")
-    #   )),
-    #   column(1, p(" vs ")),
-    #   column(3,tagList(
-    #     shinyWidgets::pickerInput(NS(id, "trans_b"), label = "", choices = NA, inline = TRUE, width = "fit"),
-    #     shinyWidgets::pickerInput(NS(id, "alpha_b"), label = "alpha", choices = NA, inline = TRUE, width = "fit")
-    #   ))
-    # ),
     fluidRow(
       column(8, offset = 2, h4(
         div(shinyWidgets::pickerInput(NS(id, "trans_a"), label = "", choices = NA, inline = TRUE, 
@@ -82,6 +71,7 @@ contrastPlotServer <- function(id, data, metric = overlap, pcadim_sel = reactive
 
       }else if(input$relative_knn){
         dat <- filtered_dat() %>%
+          filter(! is.na({{metric}})) %>%
           group_by(dataset, knn, pca_dim, replicate) %>%
           mutate(reference_performance = mean({{metric}})) %>%
           mutate({{metric}} := {{metric}} / reference_performance) %>%
@@ -102,9 +92,12 @@ contrastPlotServer <- function(id, data, metric = overlap, pcadim_sel = reactive
         
         dabestr::dabest(dat, x = transformation, y = {{metric}}, idx = c(a, b)) %>%
           dabestr::mean_diff(ci = 95, reps = 5000) %>%
-            plot(rawplot.ylabel = "Relative k-NN overlap", color.column = dataset, palette = "Accent")
+            plot(rawplot.ylabel = "Relative k-NN overlap", color.column = dataset, palette = "Accent",
+                 rawplot.ylim = if(input$zoom_in) NULL else c(0, max(dat$knn)))
+        
       }else{
         dat <- filtered_dat() %>%
+          filter(! is.na({{metric}})) %>%
           left_join(trans_families, by = "transformation") %>%
           filter((transformation == input$trans_a & alpha == input$alpha_a) | 
                    (transformation == input$trans_b & alpha == input$alpha_b)) |>
@@ -123,7 +116,8 @@ contrastPlotServer <- function(id, data, metric = overlap, pcadim_sel = reactive
         
         dabestr::dabest(dat, x = transformation, y = {{metric}}, idx = c(a, b)) %>%
           dabestr::mean_diff(ci = 95, reps = 5000) %>%
-          plot(rawplot.ylabel = "k-NN overlap", color.column = dataset, palette = "Accent") |>
+          plot(rawplot.ylabel = "k-NN overlap", color.column = dataset, palette = "Accent",
+               rawplot.ylim = if(input$zoom_in) NULL else c(0, max(dat$knn))) |>
           suppressWarnings()
       }
     }, res = 96)
