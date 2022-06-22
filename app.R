@@ -49,6 +49,7 @@ source("src/reduced_dim_plot.R")
 
 ui <- fluidPage(
   includeCSS("www/main.css"),
+  tag("title", "Transformation and Preprocessing of Single-Cell RNA-Seq Data"),
   h1("Transformation and Preprocessing of Single-Cell RNA-Seq Data"),
   h2("Online Supplementary Information"),
   h3("Benchmark Results"),
