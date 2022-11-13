@@ -57,7 +57,7 @@ reducedDimPlotServer <- function(id, data) {
                    y = if(input$show_tsne) "tSNE 2" else "PCA 2")
           })
         cowplot::plot_grid(cowplot::ggdraw() + cowplot::draw_text(input$dataset, fontface = "bold"),
-                           cowplot::plot_grid(plotlist = pl, nrow = 1, align = "vh"),
+                           cowplot::plot_grid(plotlist = pl, nrow = 1, align = ""),
                            ncol = 1, rel_heights = c(0.2, 1)
                            )
       }
