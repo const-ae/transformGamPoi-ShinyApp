@@ -38,7 +38,7 @@ reduced_dim_data <- bind_rows(
   left_join(enframe(dataset_benchmark, name = "dataset", value = "benchmark")) %>%
   mutate(dataset = dataset_labels_plain[dataset])
 
-
+texts <- yaml::read_yaml("text.yaml")
 
 source("src/utils.R")
 source("src/option_pane.R")
@@ -52,16 +52,22 @@ ui <- fluidPage(
   tag("title", "Comparison of Transformations for Single-Cell RNA-Seq Data"),
   h1("Comparison of Transformations for Single-Cell RNA-Seq Data"),
   h2("Online Supplementary Information"),
+  p(texts$general),
   h3("Benchmark Results"),
+  p(texts$benchmark_results),
   benchmarkPlotUI("benchmark"),
   optionPaneUI("benchmark_options"),
   h3("Contrasts"),
+  p(texts$contrasts),
+  
   contrastPlotUI("contrasts"),
   optionPaneUI("contrast_options", show_alpha_selector = FALSE),
   h3("Computational Expenses"),
+  p(texts$computational_expenses),
   durationPlotUI("duration"),
   optionPaneUI("duration_options", show_detailed_pcadim_selector = FALSE),
   h3("Dataset Exploration"),
+  p(texts$datasets),
   reducedDimPlotUI("reducedDimPlots")
 )
 
