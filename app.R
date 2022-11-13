@@ -18,7 +18,7 @@ res <- bind_rows(
 ) %>%
   mutate(transformation = factor(transformation, levels = trans_families$transformation)) %>%
   mutate(alpha = ifelse(alpha == "FALSE", "0", alpha)) %>%
-  mutate(dataset = dataset_labels[dataset])
+  mutate(dataset = dataset_labels_plain[dataset])
 
 tmp <- read_rds("data/dataset_plot_data.RDS")
 reduced_dim_data <- bind_rows(
@@ -36,7 +36,7 @@ reduced_dim_data <- bind_rows(
     dplyr::rename(dataset = simulator)
 ) %>%
   left_join(enframe(dataset_benchmark, name = "dataset", value = "benchmark")) %>%
-  mutate(dataset = dataset_labels[dataset])
+  mutate(dataset = dataset_labels_plain[dataset])
 
 
 
@@ -70,9 +70,9 @@ server <- function(input, output, session) {
   op_bench <- optionPaneServer("benchmark_options", data = res)
   benchmarkPlotServer("benchmark", data = res, pcadim_sel = op_bench$pca_sel,
                       knn_sel = op_bench$knn_sel, alpha_sel = op_bench$alpha_sel, dataset_sel = op_bench$dataset_sel)
-  
+
   op_contr <- optionPaneServer("contrast_options", data = res)
-  contrastPlotServer("contrasts", data = res, pcadim_sel = op_contr$pca_sel, 
+  contrastPlotServer("contrasts", data = res, pcadim_sel = op_contr$pca_sel,
                       knn_sel = op_contr$knn_sel, dataset_sel = op_contr$dataset_sel)
 
   op_dur <- optionPaneServer("duration_options", data = res)

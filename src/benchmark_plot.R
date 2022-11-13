@@ -3,7 +3,7 @@
 benchmarkPlotUI <- function(id) {
   tagList(
     div_with_floating_gear(
-      shinycssloaders::withSpinner(plotOutput(NS(id, "benchmark")), 4, hide.ui = FALSE),
+      shinycssloaders::withSpinner(plotOutput(NS(id, "benchmark"), height = "450px"), 4, hide.ui = FALSE),
       menu_content = tagList(
         shinyWidgets::awesomeCheckbox(NS(id, "zoom_in"), "zoom in"),
         shinyWidgets::awesomeCheckbox(NS(id, "relative_knn"), "Relative"),

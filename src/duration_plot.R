@@ -3,7 +3,7 @@
 durationPlotUI <- function(id) {
   tagList(
     div_with_floating_gear(
-      shinycssloaders::withSpinner(plotOutput(NS(id, "duration")), 4, hide.ui = FALSE),
+      shinycssloaders::withSpinner(plotOutput(NS(id, "duration"), height = "450px"), 4, hide.ui = FALSE),
       menu_content = tagList(
         shinyWidgets::switchInput(NS(id, "show_cputime"), label = "Show", onLabel = "CPU Time", offLabel = "Elapsed", value = TRUE),
         shinyWidgets::awesomeCheckbox(NS(id, "relative_duration"), "Relative Duration"),
