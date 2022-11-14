@@ -24,6 +24,7 @@ ENV RENV_PATHS_LIBRARY renv/library
 RUN R -e "renv::restore()"
 
 # Copy necessary files
+COPY text.yaml text.yaml
 COPY app.R app.R
 COPY data data
 COPY src src
